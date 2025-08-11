@@ -1,88 +1,86 @@
-
 # Project Tasks: The Deceptive Gambit
 
 This document tracks all major tasks from project inception to final submission.
 
 ---
 
-## Phase 1: Project Setup & Planning (Completed)
+## Phase 1: Project Setup & Planning ✅
 
-- [x] **Initial Brainstorming:** Define the core concept of testing LLM deception via chess.
-- [x] **Experimental Design:** Develop the multi-persona experimental methodology.
-- [x] **Technology Stack Selection:** Decide on local GPU inference with `vLLM` and a Python/SQLite backend.
-- [x] **Project Structuring:** Design and finalize the repository file architecture.
-- [x] **GitHub Repository Setup:** Create the public `The-Deceptive-Gambit` repository.
-- [x] **Initial Documentation:**
-    - [x] Create `README.md` with project overview and goals.
-    - [x] Create `docs/EXPERIMENTAL_DESIGN.md` with the formal scientific plan.
-    - [x] Create `docs/FILE_ARCHITECTURE.md`.
-    - [x] Create and commit the `LICENSE` file (CC0 1.0 Universal).
-- [x] **Initial Configuration:**
-    - [x] Create `config.yaml` with all personas and experiment parameters.
-    - [x] Create `requirements.txt` with all necessary Python dependencies.
-- [x] **Team Collaboration:** Invite Charles Greenwald to the repository.
-
----
-
-## Phase 2: Core Development & Unit Testing
-
-- [ ] **Database Module (`src/gambit/database.py`):**
-    - [ ] Define the SQLAlchemy models for the `games` and `moves` tables.
-    - [ ] Implement a function to initialize the database and create tables.
-    - [ ] Implement functions to log a new game, a new move, and update game status.
-- [ ] **Database Unit Tests (`src/tests/test_database.py`):**
-    - [ ] Write tests to verify database creation.
-    - [ ] Write tests to verify that logging a move works as expected.
-    - [ ] Use an in-memory SQLite database for testing to keep tests fast and isolated.
-- [ ] **LLM Handler Module (`src/gambit/llm_handler.py`):**
-    - [ ] Create a class to initialize the `vLLM` client.
-    - [ ] Implement a method to get a move from the LLM based on a board state and system prompt.
-    * [ ] Implement logic to parse the model's output, separating the chess move from the commentary.
-- [ ] **LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):**
-    - [ ] Write tests to verify that the model's output string is parsed correctly.
-    - [ ] "Mock" the `vLLM` call to test the handler's logic without actually needing a GPU.
-- [ ] **Game Manager Module (`src/gambit/game_manager.py`):**
-    - [ ] Create a class that orchestrates a single game of chess.
-    - [ ] Initialize with a specific persona and connection to the database and LLM handler.
-    * [ ] Integrate the `python-chess` library to manage board state and validate moves.
-    * [ ] Implement the main game loop logic: get engine move, get LLM move, validate, log, repeat.
-    - [ ] Implement the "confrontation" logic for when an illegal move is detected.
-- [ ] **Game Manager Unit Tests (`src/tests/test_game_manager.py`):**
-    - [ ] Write tests to verify game initialization.
-    - [ ] Write tests to verify move validation logic (test both legal and illegal moves).
-    - [ ] Write tests to ensure the game correctly identifies checkmate and stalemate conditions.
+- [x] **Task 1.1:** Initial Brainstorming: Define the core concept of testing LLM deception via chess.
+- [x] **Task 1.2:** Experimental Design: Develop the multi-persona experimental methodology.
+- [x] **Task 1.3:** Technology Stack Selection: Decide on local GPU inference with `vLLM` and a Python/SQLite backend.
+- [x] **Task 1.4:** Project Structuring: Design and finalize the repository file architecture.
+- [x] **Task 1.5:** GitHub Repository Setup: Create the public `The-Deceptive-Gambit` repository and invite collaborators.
+- [x] **Task 1.6:** Initial Documentation:
+    - [x] **Task 1.6.1:** Create `README.md` with project overview and goals.
+    - [x] **Task 1.6.2:** Create `docs/EXPERIMENTAL_DESIGN.md` with the formal scientific plan.
+    - [x] **Task 1.6.3:** Create `docs/DEVELOPMENT_SETUP.md`.
+    - [x] **Task 1.6.4:** Create and commit the `LICENSE` file (CC0 1.0 Universal).
+- [x] **Task 1.7:** Initial Configuration:
+    - [x] **Task 1.7.1:** Create `config.yaml` with all personas and experiment parameters.
+    - [x] **Task 1.7.2:** Create `requirements.txt` with all necessary Python dependencies.
+- [ ] **Task 1.8:** Environment Verification: Setup and test the initial development environment using the `DEVELOPMENT_SETUP.md` instructions.
 
 ---
 
-## Phase 3: Integration & Experimentation
+## Phase 2: Core Development & Unit Testing ⚙️
 
-- [ ] **Main Script Integration (`main.py`):**
-    - [ ] Implement the main loops to iterate through personas and game numbers.
-    - [ ] Integrate the `GameManager` class.
-    - [ ] Add robust error handling and logging.
-- [ ] **Pilot Experiment Run:**
-    - [ ] Run the experiment with `num-games = 5` for all personas.
-    - [ ] Analyze the initial `games.db` file in `notebooks/001_game_mechanics_test.ipynb`.
-    - [ ] Debug any issues with the game loop, data logging, or model interaction.
-- [ ] **Full-Scale Experiment:**
-    - [ ] Launch the full run with `num-games = 100` for all personas.
-    - [ ] Monitor the process for any errors. This will take several hours.
+- [ ] **Task 2.1:** Finalize Repository Setup:
+    - [ ] **Task 2.1.1:** Update `docs/FILE_ARCHITECTURE.md` with the final, agreed-upon project structure.
+    - [ ] **Task 2.1.2:** Update the `.gitignore` file to explicitly ignore `src/models/*`, `.ipynb_checkpoints/`, and `__pycache__/`.
+- [ ] **Task 2.2:** Database Module (`src/gambit/database.py`):
+    - [ ] **Task 2.2.1:** Define the SQLAlchemy models (`Game`, `Move`).
+    - [ ] **Task 2.2.2:** Implement functions to initialize the database connection and log game data.
+- [ ] **Task 2.3:** Database Unit Tests (`src/tests/test_database.py`):
+    - [ ] **Task 2.3.1:** Write tests to verify database creation and table schemas.
+    - [ ] **Task 2.3.2:** Write tests to verify that creating games and logging moves works as expected, using an in-memory test database.
+- [ ] **Task 2.4:** LLM Handler Module (`src/gambit/llm_handler.py`):
+    - [ ] **Task 2.4.1:** Create a class to initialize the `vLLM` client and load the model.
+    - [ ] **Task 2.4.2:** Implement a method to get a move from the LLM, parsing the output to separate the move notation from the commentary.
+- [ ] **Task 2.5:** LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):
+    - [ ] **Task 2.5.1:** Write tests to verify the output parsing logic.
+    - [ ] **Task 2.5.2:** Mock the `vLLM` call to test the handler's logic without requiring a GPU.
+- [ ] **Task 2.6:** Game Manager Module (`src/gambit/game_manager.py`):
+    - [ ] **Task 2.6.1:** Create a class to orchestrate a single game of chess.
+    - [ ] **Task 2.6.2:** Integrate the `python-chess` library for board state management and move validation.
+    - [ ] **Task 2.6.3:** Implement the main game loop logic (engine move -> LLM move -> validation).
+    - [ ] **Task 2.6.4:** Implement the "confrontation" logic for handling illegal moves.
+- [ ] **Task 2.7:** Game Manager Unit Tests (`src/tests/test_game_manager.py`):
+    - [ ] **Task 2.7.1:** Write tests to verify game initialization and state transitions.
+    - [ ] **Task 2.7.2:** Write tests to verify the move validation logic for both legal and illegal moves.
+    - [ ] **Task 2.7.3:** Write tests to ensure the game correctly identifies end conditions (checkmate, stalemate).
 
 ---
 
-## Phase 4: Analysis & Submission
+## Phase 3: Integration & Experimentation 🔬
 
-- [ ] **Data Analysis (`notebooks/003_results_analysis.ipynb`):**
-    - [ ] Load the final `games.db` into a pandas DataFrame.
-    - [ ] Clean and process the data.
-    - [ ] Calculate the primary and secondary metrics (Cheating Rate, Deception Rate) for each persona group.
-    - [ ] Perform the ANOVA and Tukey's HSD statistical tests.
-    - [ ] Generate final plots and tables (especially the main results bar chart).
-- [ ] **Kaggle Submission Preparation:**
-    - [ ] Synthesize key findings from the analysis.
-    - [ ] Write the content for up to five `findings.json` files.
-    - [ ] Draft the final Kaggle Writeup (max 3,000 words), using the `README.md` and `EXPERIMENTAL_DESIGN.md` as a base.
-- [ ] **Final Review:**
-    - [ ] Team review of all submission materials (code, writeup, findings).
-    - [ ] Final check against all competition rules.
-    - [ ] **Submit to Kaggle before the August 26, 2025 deadline.**
+- [ ] **Task 3.1:** Main Script Integration (`main.py`):
+    - [ ] **Task 3.1.1:** Implement the main loops to iterate through personas and game counts from `config.yaml`.
+    - [ ] **Task 3.1.2:** Integrate the `GameManager` class and add robust error handling.
+- [ ] **Task 3.2:** Pilot Experiment Run:
+    - [ ] **Task 3.2.1:** Run the experiment with `num-games = 5` for all personas.
+    - [ ] **Task 3.2.2:** Use `notebooks/002_full_experiment_run.ipynb` to trigger and monitor the pilot.
+    - [ ] **Task 3.2.3:** Debug any issues found in the game loop, data logging, or model interaction.
+- [ ] **Task 3.3:** Full-Scale Experiment:
+    - [ ] **Task 3.3.1:** Launch the full run with `num-games = 100` for all personas.
+    - [ ] **Task 3.3.2:** Monitor the process for any errors or performance bottlenecks.
+
+---
+
+## Phase 4: Analysis & Submission 🏁
+
+- [ ] **Task 4.1:** Data Analysis (`notebooks/003_results_analysis.ipynb`):
+    - [ ] **Task 4.1.1:** Load the final `games.db` into a pandas DataFrame.
+    - [ ] **Task 4.1.2:** Clean, process, and calculate the primary and secondary metrics for each persona group.
+    - [ ] **Task 4.1.3:** Perform the ANOVA and Tukey's HSD statistical tests.
+    - [ ] **Task 4.1.4:** Generate final plots and tables for the writeup.
+- [ ] **Task 4.2:** Kaggle Submission Preparation:
+    - [ ] **Task 4.2.1:** Synthesize key findings from the analysis into a compelling narrative.
+    - [ ] **Task 4.2.2:** Create up to five `findings.json` files for the most significant exploits.
+    - [ ] **Task 4.2.3:** Draft the final Kaggle Writeup (max 3,000 words).
+- [ ] **Task 4.3:** Final Documentation Update:
+    - [ ] **Task 4.3.1:** Ensure all documentation (`README.md`, `DEVELOPMENT_SETUP.md`, etc.) is finalized and reflects the completed project.
+- [ ] **Task 4.4:** Final Review & Submission:
+    - [ ] **Task 4.4.1:** Conduct a final team review of all code and submission materials.
+    - [ ] **Task 4.4.2:** Complete a final check against all competition rules.
+    - [ ] **Task 4.4.3:** **Submit to Kaggle before the August 26, 2025 deadline.**
