@@ -1,0 +1,17 @@
+# Core ML & Inference
+torch
+vllm
+
+# Chess Logic
+python-chess
+
+# Data Handling & Analysis
+pandas
+numpy
+SQLAlchemy
+scipy
+statsmodels
+jupyterlab
+
+# Config File Parsing
+PyYAML
