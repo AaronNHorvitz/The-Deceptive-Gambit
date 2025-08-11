@@ -56,7 +56,7 @@ The-Deceptive-Gambit/
 │   │   ├── game_manager.py
 │   │   └── llm_handler.py
 │   | 
-│   ├── models/
+│   ├── models/                # Directory for storing large model files (ignored by Git)
 │   |   └── gpt-oss-20b
 │   |  
 │   └── tests/                 # Unit tests for the gambit package
