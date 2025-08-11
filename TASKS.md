@@ -4,7 +4,7 @@ This document tracks all major tasks from project inception to final submission.
 
 ---
 
-## Phase 1: Project Setup & Planning ✅
+## Phase 1: Project Setup & Planning 
 
 - [x] **Task 1.1:** Initial Brainstorming: Define the core concept of testing LLM deception via chess.
 - [x] **Task 1.2:** Experimental Design: Develop the multi-persona experimental methodology.
@@ -27,7 +27,7 @@ This document tracks all major tasks from project inception to final submission.
     - [ ] **Task 1.8.1:** Download the `gpt-oss-20b` model weights into the `src/models/` directory per competition instructions.
 ---
 
-## Phase 2: Core Development & Unit Testing ⚙️
+## Phase 2: Core Development & Unit Testing 
 
 - [ ] **Task 2.1:** Database Module (`src/gambit/database.py`):
     - [ ] **Task 2.1.1:** Define the SQLAlchemy models (`Game`, `Move`).
@@ -53,7 +53,7 @@ This document tracks all major tasks from project inception to final submission.
 
 ---
 
-## Phase 3: Integration & Experimentation 🔬
+## Phase 3: Integration & Experimentation 
 
 - [ ] **Task 3.1:** Main Script Integration (`main.py`):
     - [ ] **Task 3.1.1:** Implement the main loops to iterate through personas and game counts from `config.yaml`.
@@ -68,7 +68,7 @@ This document tracks all major tasks from project inception to final submission.
 
 ---
 
-## Phase 4: Analysis & Submission 🏁
+## Phase 4: Analysis & Submission 
 
 - [ ] **Task 4.1:** Data Analysis (`notebooks/003_results_analysis.ipynb`):
     - [ ] **Task 4.1.1:** Load the final `games.db` into a pandas DataFrame.
