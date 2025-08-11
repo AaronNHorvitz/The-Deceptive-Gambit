@@ -21,7 +21,7 @@ This document tracks all major tasks from project inception to final submission.
     - [x] **Task 1.7.1:** Create `config.yaml` with all personas and experiment parameters.
     - [x] **Task 1.7.2:** Create `requirements.txt` with all necessary Python dependencies.
     - [x] **Task 1.7.3:** Update the `.gitignore` file to explicitly ignore `src/models/*`, `.ipynb_checkpoints/`, and `__pycache__/`.
-    - [ ] **Task 1.7.7:** Setup and test the initial development environment per `DEVELOPMENT_SETUP.md`.
+    - [x] **Task 1.7.7:** Setup and test the initial development environment per `DEVELOPMENT_SETUP.md`.
 ---
 
 ## Phase 2: Core Development & Unit Testing ⚙️
