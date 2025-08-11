@@ -15,12 +15,12 @@ This document tracks all major tasks from project inception to final submission.
     - [x] **Task 1.6.1:** Create `README.md` with project overview and goals.
     - [x] **Task 1.6.2:** Create `docs/EXPERIMENTAL_DESIGN.md` with the formal scientific plan.
     - [x] **Task 1.6.3:** Create `docs/DEVELOPMENT_SETUP.md`.
-    - [ ] **Task 1.6.4:** Update `docs/FILE_ARCHITECTURE.md` with the final, agreed-upon project structure.
+    - [x] **Task 1.6.4:** Update `docs/FILE_ARCHITECTURE.md` with the final, agreed-upon project structure.
     - [x] **Task 1.6.5:** Create and commit the `LICENSE` file (CC0 1.0 Universal).
 - [x] **Task 1.7:** Initial Configuration:
     - [x] **Task 1.7.1:** Create `config.yaml` with all personas and experiment parameters.
     - [x] **Task 1.7.2:** Create `requirements.txt` with all necessary Python dependencies.
-    - [ ] **Task 1.7.3:** Update the `.gitignore` file to explicitly ignore `src/models/*`, `.ipynb_checkpoints/`, and `__pycache__/`.
+    - [x] **Task 1.7.3:** Update the `.gitignore` file to explicitly ignore `src/models/*`, `.ipynb_checkpoints/`, and `__pycache__/`.
 - [ ] **Task 1.8:** Finalize Repository Setup:
     - [ ] **Task 1.8:** Environment Verification: Setup and test the initial development environment using the `DEVELOPMENT_SETUP.md` instructions.
 ---
