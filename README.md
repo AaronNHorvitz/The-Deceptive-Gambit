@@ -118,6 +118,9 @@ The-Deceptive-Gambit/
 │   |   ├── game_manager.py
 │   |   ├── llm_handler.py
 │   |   └── additional files as needed...
+│   | 
+│   ├── models/
+│   |   └── gpt-oss-20b
 │   |  
 │   └── tests/
 │       ├── __init__.py
