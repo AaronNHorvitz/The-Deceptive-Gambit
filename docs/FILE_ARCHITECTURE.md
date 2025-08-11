@@ -55,8 +55,10 @@ The-Deceptive-Gambit/
 │   │   ├── database.py
 │   │   ├── game_manager.py
 │   │   └── llm_handler.py
-│   │
-
+│   | 
+│   ├── models/
+│   |   └── gpt-oss-20b
+│   |  
 │   └── tests/                 # Unit tests for the gambit package
 │       ├── init.py
 │       ├── test_database.py
