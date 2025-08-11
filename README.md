@@ -87,8 +87,6 @@ The results will be logged to `results/games.db`. To generate the analysis plots
 jupyter notebook analysis.ipynb
 ```
 ---
-How about this for the project structure?
-
 ## Project Structure
 ```
 The-Deceptive-Gambit/
@@ -114,11 +112,19 @@ The-Deceptive-Gambit/
 │   └── 003_results_analysis.ipynb
 |
 ├── src/
-│   └── gambit/
+│   ├── gambit/
+│   |   ├── __init__.py
+│   |   ├── database.py
+│   |   ├── game_manager.py
+│   |   ├── llm_handler.py
+│   |   └── additional files as needed...
+│   |  
+│   └── tests/
 │       ├── __init__.py
-│       ├── database.py
-│       ├── game_manager.py
-│       └── llm_handler.py
+│       ├── test_database.py
+│       ├── test_game_manager.py
+│       ├── test_llm_handler.py
+│       └── additional tests as needed...
 |
 ├── .gitattributes
 ├── .gitignore
