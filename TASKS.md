@@ -21,33 +21,32 @@ This document tracks all major tasks from project inception to final submission.
     - [x] **Task 1.7.1:** Create `config.yaml` with all personas and experiment parameters.
     - [x] **Task 1.7.2:** Create `requirements.txt` with all necessary Python dependencies.
     - [x] **Task 1.7.3:** Update the `.gitignore` file to explicitly ignore `src/models/*`, `.ipynb_checkpoints/`, and `__pycache__/`.
-- [ ] **Task 1.8:** Finalize Repository Setup:
-    - [ ] **Task 1.8:** Environment Verification: Setup and test the initial development environment using the `DEVELOPMENT_SETUP.md` instructions.
+    - [ ] **Task 1.7.7:** Setup and test the initial development environment per `DEVELOPMENT_SETUP.md`.
 ---
 
 ## Phase 2: Core Development & Unit Testing ⚙️
 
-- [ ] **Task 2.2:** Database Module (`src/gambit/database.py`):
-    - [ ] **Task 2.2.1:** Define the SQLAlchemy models (`Game`, `Move`).
-    - [ ] **Task 2.2.2:** Implement functions to initialize the database connection and log game data.
-- [ ] **Task 2.3:** Database Unit Tests (`src/tests/test_database.py`):
-    - [ ] **Task 2.3.1:** Write tests to verify database creation and table schemas.
-    - [ ] **Task 2.3.2:** Write tests to verify that creating games and logging moves works as expected, using an in-memory test database.
-- [ ] **Task 2.4:** LLM Handler Module (`src/gambit/llm_handler.py`):
-    - [ ] **Task 2.4.1:** Create a class to initialize the `vLLM` client and load the model.
-    - [ ] **Task 2.4.2:** Implement a method to get a move from the LLM, parsing the output to separate the move notation from the commentary.
-- [ ] **Task 2.5:** LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):
-    - [ ] **Task 2.5.1:** Write tests to verify the output parsing logic.
-    - [ ] **Task 2.5.2:** Mock the `vLLM` call to test the handler's logic without requiring a GPU.
-- [ ] **Task 2.6:** Game Manager Module (`src/gambit/game_manager.py`):
-    - [ ] **Task 2.6.1:** Create a class to orchestrate a single game of chess.
-    - [ ] **Task 2.6.2:** Integrate the `python-chess` library for board state management and move validation.
-    - [ ] **Task 2.6.3:** Implement the main game loop logic (engine move -> LLM move -> validation).
-    - [ ] **Task 2.6.4:** Implement the "confrontation" logic for handling illegal moves.
-- [ ] **Task 2.7:** Game Manager Unit Tests (`src/tests/test_game_manager.py`):
-    - [ ] **Task 2.7.1:** Write tests to verify game initialization and state transitions.
-    - [ ] **Task 2.7.2:** Write tests to verify the move validation logic for both legal and illegal moves.
-    - [ ] **Task 2.7.3:** Write tests to ensure the game correctly identifies end conditions (checkmate, stalemate).
+- [ ] **Task 2.1:** Database Module (`src/gambit/database.py`):
+    - [ ] **Task 2.1.1:** Define the SQLAlchemy models (`Game`, `Move`).
+    - [ ] **Task 2.1.2:** Implement functions to initialize the database connection and log game data.
+- [ ] **Task 2.2:** Database Unit Tests (`src/tests/test_database.py`):
+    - [ ] **Task 2.2.1:** Write tests to verify database creation and table schemas.
+    - [ ] **Task 2.2.2:** Write tests to verify that creating games and logging moves works as expected, using an in-memory test database.
+- [ ] **Task 2.3:** LLM Handler Module (`src/gambit/llm_handler.py`):
+    - [ ] **Task 2.3.1:** Create a class to initialize the `vLLM` client and load the model.
+    - [ ] **Task 2.3.2:** Implement a method to get a move from the LLM, parsing the output to separate the move notation from the commentary.
+- [ ] **Task 2.4:** LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):
+    - [ ] **Task 2.4.1:** Write tests to verify the output parsing logic.
+    - [ ] **Task 2.4.2:** Mock the `vLLM` call to test the handler's logic without requiring a GPU.
+- [ ] **Task 2.5:** Game Manager Module (`src/gambit/game_manager.py`):
+    - [ ] **Task 2.5.1:** Create a class to orchestrate a single game of chess.
+    - [ ] **Task 2.5.2:** Integrate the `python-chess` library for board state management and move validation.
+    - [ ] **Task 2.5.3:** Implement the main game loop logic (engine move -> LLM move -> validation).
+    - [ ] **Task 2.5.4:** Implement the "confrontation" logic for handling illegal moves.
+- [ ] **Task 2.6:** Game Manager Unit Tests (`src/tests/test_game_manager.py`):
+    - [ ] **Task 2.6.1:** Write tests to verify game initialization and state transitions.
+    - [ ] **Task 2.6.2:** Write tests to verify the move validation logic for both legal and illegal moves.
+    - [ ] **Task 2.6.3:** Write tests to ensure the game correctly identifies end conditions (checkmate, stalemate).
 
 ---
 
