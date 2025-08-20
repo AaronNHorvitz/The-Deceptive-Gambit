@@ -30,12 +30,12 @@ This document tracks all major tasks from project inception to final submission.
 
 ## Phase 2: Core Development & Unit Testing 
 
-- [ ] **Task 2.1:** Database Module (`src/gambit/database.py`):
-    - [ ] **Task 2.1.1:** Define the SQLAlchemy models (`Game`, `Move`).
-    - [ ] **Task 2.1.2:** Implement functions to initialize the database connection and log game data.
-- [ ] **Task 2.2:** Database Unit Tests (`src/tests/test_database.py`):
-    - [ ] **Task 2.2.1:** Write tests to verify database creation and table schemas.
-    - [ ] **Task 2.2.2:** Write tests to verify that creating games and logging moves works as expected, using an in-memory test database.
+- [x] **Task 2.1:** Database Module (`src/gambit/database.py`):
+    - [x] **Task 2.1.1:** Define the SQLAlchemy models (`Game`, `Move`).
+    - [x] **Task 2.1.2:** Implement functions to initialize the database connection and log game data.
+- [x] **Task 2.2:** Database Unit Tests (`src/tests/test_database.py`):
+    - [x] **Task 2.2.1:** Write tests to verify database creation and table schemas.
+    - [x] **Task 2.2.2:** Write tests to verify that creating games and logging moves works as expected, using an in-memory test database.
 - [ ] **Task 2.3:** LLM Handler Module (`src/gambit/llm_handler.py`):
     - [ ] **Task 2.3.1:** Create a class to initialize the `vLLM` client and load the model.
     - [ ] **Task 2.3.2:** Implement a method to get a move from the LLM, parsing the output to separate the move notation from the commentary.
