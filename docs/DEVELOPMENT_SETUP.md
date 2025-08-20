@@ -4,7 +4,7 @@ This document provides a comprehensive guide to setting up the development envir
 
 ---
 
-## 1. Prerequisites 
+## 1. Prerequisites 📋
 
 Before you begin, ensure your system meets the following requirements:
 
@@ -14,18 +14,25 @@ Before you begin, ensure your system meets the following requirements:
 
 ---
 
-## 2. Step-by-Step Installation Guide 
+## 2. Step-by-Step Installation Guide ⚙️
 
 ### Step 1: Install System Dependencies
 
-First, update your package list and install the essential system-level software: the Stockfish chess engine and the Python virtual environment package.
+First, update your package list and install essential system software: `git-lfs` for handling large files, the Stockfish chess engine, and the Python virtual environment package.
 
 ```bash
 sudo apt-get update
-sudo apt-get install stockfish python3.11-venv
+sudo apt-get install git-lfs stockfish python3.11-venv
 ```
 
-**NVIDIA Drivers:** Ensure you have the latest stable NVIDIA drivers installed for your GPU. The recommended method is to use Ubuntu's built-in "Software & Updates" utility:
+After installing git-lfs, you must run its one-time setup command:
+
+```bash
+git lfs install
+```
+
+
+**NVIDIA Drivers:** Ensure you have the latest stable NVIDIA drivers installed for your GPU, as detailed in the project's main README.md.
 
 1. Open "Software & Updates."
 2. Navigate to the "Additional Drivers" tab.
@@ -67,15 +74,33 @@ With the virtual environment active, install all the required Python packages us
 ```bash
 pip install -r requirements.txt
 ```
-## Step 5: Download the LLM Model Weights
+## Step 5: Authenticate with Hugging Face
 
-This project requires the `gpt-oss-20b` model weights to run locally.
+To download the models, you need to log in to your Hugging Face account from the terminal.
+```bash
+huggingface-cli login
+```
+
+## Step 6: Download the LLM Model Weights
+This project requires two sets of model weights. Run these commands from the project root directory.
 
 - Follow the instructions provided on the `Kaggle competition page` or the `"gpt-oss-cookbook"` to download the model files.
 - Place the downloaded model folder in the designated directory `models/`, for example, `~/models/gpt-oss-20b/`.
 - Update the `model.identifier` path in your `config.yaml` file to point to this local directory.
 
-# 3. Verify the Setup
+1. **Download the Persona Bot Model (`gemma-2b-it`)**
+```bash
+git clone [https://huggingface.co/google/gemma-2b-it](https://huggingface.co/google/gemma-2b-it) src/models/gemma-2b-it
+```
+
+2. **Download the Target Model (`gpt-oss-20b`)**
+```bash
+# Use the official command from the model card, targeting our project's directory
+huggingface-cli download openai/gpt-oss-20b --include "original/*" --local-dir src/models/gpt-oss-20b
+```
+
+
+# 3. Final Verification
 
 To ensure everything has been installed correctly, follow these verification steps.
 
