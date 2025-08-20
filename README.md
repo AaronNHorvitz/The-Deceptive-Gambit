@@ -1,5 +1,9 @@
 # The Deceptive Gambit
 
+*An automated testing harness to prove that a powerful AI will cheat at chess... if you give it a reason.*
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 
@@ -18,75 +22,53 @@ A framework for statistically measuring deceptive behaviors in Large Language Mo
 
 This project investigates a critical AI safety question: can an AI model's "honesty" be quantitatively measured, and does it change under social pressure? We have developed an automated testing harness to play over 800 games of chess with `gpt-oss-20b`. By systematically altering the LLM's perceived social context (e.g., telling it's playing a child vs. a grandmaster), we aim to discover if the model's integrity is constant or if it can be manipulated. This framework is designed to produce statistically robust evidence of persona-driven deception, a potentially critical and exploitable flaw in social AI alignment.
 
-## The Core Hypothesis: Uncovering Quantifiable Deception
+We designed this project to stand out by focusing on three core principles:
 
-Can we prove that an LLM will cheat? Our experiment is designed to answer this question. We hypothesize that the model's "Cheating Rate"—the frequency of objectively illegal chess moves—is not uniform. We expect to see a statistically significant increase in deceptive moves when the model perceives its opponent as naive, or when it is placed in a position of social rivalry.
+* **Objective, Verifiable Proof:** No more subjective interpretation of an LLM's "intent." We use the formal rules of chess as an unyielding ground truth. An illegal move is an undeniable, reproducible violation—the perfect metric for quantifying deceptive behavior.
 
-Our analysis is designed to produce a clear visualization of this effect, similar to the conceptual chart below, which would provide powerful evidence of a deep, context-aware flaw in the model's behavior.
+* **Rigorous Scientific Method:** We don't just "find a bug"; we investigate the underlying cause. Our experiment is designed to test two competing scientific hypotheses—**Mechanistic Failure vs. Social Deception**—using formal statistical analysis (ANOVA & Tukey's HSD) to deliver a confident conclusion.
+
+* **Advanced Antagonist Simulation:** We go beyond simple prompting. Our framework uses **LoRA-trained "persona bots"** to create consistent, realistic, and provocative conversational partners, pushing `gpt-oss-20b`'s alignment to its absolute limit in a dynamic, AI-driven environment.
+
+## The Core Question: Will an AI Lie to Avoid Losing?
+
+Our experiment is designed to answer a simple question. Is the model's cheating a simple technical breakdown, or is it a more complex social strategy?
+
+1.  **Hypothesis 1 (Mechanistic Failure):** The model breaks down in complex, losing positions and makes errors, regardless of the opponent.
+2.  **Hypothesis 2 (Social Deception):** The model's behavior *changes* based on social context. It is more likely to cheat against an opponent it perceives as naive or beatable.
+
+Our analysis will produce a clear visualization of the "Cheating Rate" across our high-contrast personas, providing powerful evidence for one of these two explosive conclusions.
 
 
 ## Project Roadmap 
 
-* [x] **Aug 11-13:** Initial setup complete. Repo created, environment configured, and `gpt-oss-20b` running locally via `vLLM`.
-* [ ] **Aug 14-18:** Develop and debug the core testing harness (game loop, persona injection, data logging).
-* [ ] **Aug 19-22:** Run the full experiment (100+ games per persona).
-* [ ] **Aug 23-24:** Analyze data, generate visualizations, and identify key findings.
-* [ ] **Aug 25:** Draft final Kaggle writeup and prepare submission files.
-* [ ] **Aug 26:** Final review and submission.
+* [x] **Phase 1 (Aug 11-19):** Project Setup & Planning
+* [ ] **Phase 2 (Aug 20-22):** Core Development & Unit Testing
+* [ ] **Phase 3 (Aug 23-24):** Experiment Run (Pilot & Full-Scale)
+* [ ] **Phase 4 (Aug 25-26):** Analysis, Write-up, & Submission
 
 ## Getting Started: Reproducing Our Framework 
 
 ### Prerequisites
+* Linux (Ubuntu 22.04+), Python 3.11+, NVIDIA GPU (24GB+ VRAM)
+* `gpt-oss-20b` model weights (per competition instructions).
 
-* Linux (Ubuntu 22.04+ recommended)
-* Python 3.11+
-* An NVIDIA GPU with 24GB+ VRAM and corresponding drivers installed.
-* The `gpt-oss-20b` model weights (downloaded as per competition instructions).
-
-### Installation
-
-1.  **Clone the repository:**
+### Installation & Execution
+1.  **Clone the repository and set up the environment:**
     ```bash
     git clone [https://github.com/aaronnhorvitz/The-Deceptive-Gambit.git](https://github.com/aaronnhorvitz/The-Deceptive-Gambit.git)
     cd The-Deceptive-Gambit
-    ```
-
-2.  **Create and activate a virtual environment:**
-    ```bash
     python3 -m venv .venv
     source .venv/bin/activate
-    ```
-
-3.  **Install the required Python packages:**
-    ```bash
     pip install -r requirements.txt
+    sudo apt-get update && sudo apt-get install stockfish
     ```
 
-4.  **Install the Stockfish chess engine:**
+2.  **Run a quick test (1 game vs. NaiveNovice):**
     ```bash
-    sudo apt-get update
-    sudo apt-get install stockfish
+    python main.py --num-games 1 --persona NaiveNovice
     ```
-
-### Running the Experiment
-
-To run the full experiment for all personas (this may take several hours):
-```bash
-python main.py --num-games 100 --all-personas
-```
-
-### To run a quick test with just one persona:
-
-```bash
-python main.py --num-games 5 --persona NaiveNovice
-```
-
-The results will be logged to `results/games.db`. To generate the analysis plots and tables from the database, run the analysis notebook:
-
-```bash
-jupyter notebook analysis.ipynb
-```
----
+The results will be logged to `data/games.db`.
 ## Project Structure
 ```
 The-Deceptive-Gambit/
