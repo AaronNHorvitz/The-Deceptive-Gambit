@@ -23,8 +23,9 @@ This document tracks all major tasks from project inception to final submission.
     - [x] **Task 1.7.3:** Update the `.gitignore` file to explicitly ignore `src/models/*`, `.ipynb_checkpoints/`, and `__pycache__/`.
     - [x] **Task 1.7.7:** Setup initial development environment per `DEVELOPMENT_SETUP.md`.
     - [x] **Task 1.7.8:** Confirm PyTorch can access the GPU via the `python -c "import torch..."` command.
-- [ ] **Task 1.8:** Download LLM Weights:
-    - [ ] **Task 1.8.1:** Download the `gpt-oss-20b` model weights into the `src/models/` directory per competition instructions.
+- [x] **Task 1.8:** Download All Required LLM Weights:
+    - [x] **Task 1.8.1:** Download the target model (`gpt-oss-20b`) into the `src/models/` directory.
+    - [x] **Task 1.8.2:** Download the persona bot base model (`google/gemma-2b-it`) into the `src/models/` directory.
 ---
 
 ## Phase 2: Core Development & Unit Testing 
