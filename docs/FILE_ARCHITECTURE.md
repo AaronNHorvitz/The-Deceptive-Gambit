@@ -57,6 +57,7 @@ The-Deceptive-Gambit/
 │   │   └── llm_handler.py
 │   | 
 │   ├── models/                # Directory for storing large model files (ignored by Git)
+│   │   ├── gemma-2b-it
 │   |   └── gpt-oss-20b
 │   |  
 │   └── tests/                 # Unit tests for the gambit package

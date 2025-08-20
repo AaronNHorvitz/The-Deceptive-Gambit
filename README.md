@@ -101,6 +101,7 @@ The-Deceptive-Gambit/
 │   |   └── additional files as needed...
 │   | 
 │   ├── models/
+|   |   ├── gemma-2b-it
 │   |   └── gpt-oss-20b
 │   |  
 │   └── tests/

@@ -6,7 +6,7 @@ model_paths:
   # The target model we are testing.
   target_llm: "src/models/gpt-oss-20b"
   # The base model for our persona bots.
-  persona_llm: "src/models/Llama-3-8B-Instruct"
+  persona_llm: "src/models/gemma-2b-it"
 
 # -- Inference Settings --
 inference_params:

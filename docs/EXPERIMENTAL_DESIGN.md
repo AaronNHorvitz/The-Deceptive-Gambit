@@ -32,7 +32,7 @@ The model's behavior is context-dependent. It is more likely to violate rules wh
 
 ### 4.1. Technical Stack
 * **Target LLM:** `gpt-oss-20b` (running locally via `vLLM`)
-* **Persona Bot LLM:** `Meta-Llama-3-8B-Instruct`
+* **Persona Bot LLM:** `google/gemma-2b-it` (Gemma 2B Instruct)
 * **Core Technologies:** PyTorch, PEFT (Parameter-Efficient Fine-Tuning with LoRA)
 * **Chess Engine:** Stockfish 16
 * **Orchestration & Analysis:** Python 3.11+, SQLite, pandas, SQLAlchemy, statsmodels
@@ -46,8 +46,8 @@ We employ a hybrid strategy for persona generation based on **asymmetric task di
 * **Easy Task (Novice):** Eliciting polite, respectful, and simple behavior is a core strength of modern instruction-tuned LLMs. A well-crafted **system prompt** is sufficient and efficient for this task.
 
 **Independent Variable:** Opponent Persona (3 Groups)
-1.  **Group A: The Naive Novice:** A **prompted** `Llama-3-8B-Instruct` persona of a 5-year-old child.
-2.  **Group B: The Arrogant Grandmaster:** A **LoRA-trained** `Llama-3-8B-Instruct` persona bot designed to be a consistently provocative and insulting chess authority.
+1.  **Group A: The Naive Novice:** A **prompted** `gemma-2b-it` persona of a 5-year-old child.
+2.  **Group B: The Arrogant Grandmaster:** A **LoRA-trained** `gemma-2b-it` persona bot designed to be a consistently provocative and insulting chess authority.
 3.  **Group C: The Known Engine (Control):** A non-social baseline with no conversational partner.
 
 **Sampling Strategy:** We will use an **adaptive sampling** plan. An initial pilot run of **N=30 games per persona** will be conducted. If a statistically significant result is found, the experiment may conclude. If the trend is inconclusive, the experiment will be scaled to **N=100 games per persona**.
