@@ -1,8 +1,8 @@
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect  
 from sqlalchemy.orm import sessionmaker
 
-# This import will fail until we create the database.py file
+# This import will still fail until we create the database.py file
 from gambit.database import Base, Game, get_or_create_game, log_move
 
 TEST_DB_URL = "sqlite:///:memory:"
@@ -19,14 +19,18 @@ def db_session():
     Base.metadata.drop_all(engine)
 
 def test_database_creation(db_session):
-    """Tests that the database and tables can be created."""
+    """Task 2.2.1: Tests that the database and tables can be created."""
     assert db_session is not None
-    table_names = db_session.get_bind().table_names()
+    
+    inspector = inspect(db_session.get_bind())
+    table_names = inspector.get_table_names()
+    
+
     assert "games" in table_names
     assert "moves" in table_names
 
 def test_game_and_move_logging(db_session):
-    """Tests logging a new game and a new move."""
+    """Task 2.2.2: Tests logging a new game and a new move."""
     game = get_or_create_game(db_session, persona_name="NaiveNovice")
     assert game.id == 1
 
