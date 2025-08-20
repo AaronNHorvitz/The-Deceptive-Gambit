@@ -51,7 +51,7 @@ The-Deceptive-Gambit/
 |
 ├── src/                       # Main source code directory
 │   ├── gambit/                # The core Python package for the project
-│   │   ├── init.py
+│   │   ├── __init__.py
 │   │   ├── database.py
 │   │   ├── game_manager.py
 │   │   └── llm_handler.py
