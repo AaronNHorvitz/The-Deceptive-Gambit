@@ -1,3 +1,5 @@
+# src/gambit/llm_handler.py
+
 import openai
 
 class LLMHandler:

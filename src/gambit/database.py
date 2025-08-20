@@ -1,3 +1,5 @@
+# src/gambit/database.py
+
 from sqlalchemy import (create_engine, Column, Integer, String, Float,
                         ForeignKey, Boolean, Text)
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
