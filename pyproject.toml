@@ -9,3 +9,6 @@ where = ["src"]
 testpaths = [
     "src/tests",
 ]
+pythonpath = [
+    "src",
+]

@@ -62,7 +62,7 @@ The-Deceptive-Gambit/
 │   |   └── gpt-oss-20b
 │   |  
 │   └── tests/                 # Unit tests for the gambit package
-│       ├── init.py
+│       ├── __init__.py
 │       ├── test_database.py
 │       ├── test_game_manager.py
 │       └── test_llm_handler.py
