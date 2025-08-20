@@ -19,6 +19,7 @@ The-Deceptive-Gambit/
 ├── LICENSE
 ├── README.md
 ├── TASKS.md
+├── pyproject.toml
 ├── config.yaml
 ├── main.py
 └── requirements.txt
@@ -71,6 +72,7 @@ The-Deceptive-Gambit/
 ├── LICENSE                    # The CC0 1.0 Universal license file
 ├── README.md                  # The main project overview
 ├── TASKS.md                   # The detailed project task list
+├── pyproject.toml             # Python project metadata
 ├── config.yaml                # Central place for all parameters
 ├── main.py                    # Main executable script to run the experiment
 └── requirements.txt           # Python package dependencies

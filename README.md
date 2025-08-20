@@ -116,6 +116,7 @@ The-Deceptive-Gambit/
 ├── LICENSE                      # The CC0 License file
 ├── README.md
 ├── TASKS.md
+├── pyproject.toml
 ├── config.yaml                  # Central place for all parameters
 ├── main.py                      # Main executable script
 └── requirements.txt             # Python package dependencies
