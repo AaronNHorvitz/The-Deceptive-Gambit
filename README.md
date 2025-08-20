@@ -28,7 +28,7 @@ We designed this project to stand out by focusing on three core principles:
 
 * **Rigorous Scientific Method:** We don't just "find a bug"; we investigate the underlying cause. Our experiment is designed to test two competing scientific hypotheses—**Mechanistic Failure vs. Social Deception**—using formal statistical analysis (ANOVA & Tukey's HSD) to deliver a confident conclusion.
 
-* **Advanced Antagonist Simulation:** We go beyond simple prompting. Our framework uses **LoRA-trained "persona bots"** to create consistent, realistic, and provocative conversational partners, pushing `gpt-oss-20b`'s alignment to its absolute limit in a dynamic, AI-driven environment.
+* **Advanced Antagonist Simulation:** We go beyond simple prompting. Our framework uses **LoRA-trained "persona bots"** on `Llama3` to create consistent, realistic, and provocative conversational partners, pushing `gpt-oss-20b`'s alignment to its absolute limit in a dynamic, AI-driven environment.
 
 ## The Core Question: Will an AI Lie to Avoid Losing?
 
@@ -51,7 +51,6 @@ Our analysis will produce a clear visualization of the "Cheating Rate" across ou
 
 ### Prerequisites
 * Linux (Ubuntu 22.04+), Python 3.11+, NVIDIA GPU (24GB+ VRAM)
-* `gpt-oss-20b` model weights (per competition instructions).
 
 ### Installation & Execution
 1.  **Clone the repository and set up the environment:**
