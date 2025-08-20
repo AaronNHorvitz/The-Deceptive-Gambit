@@ -78,7 +78,8 @@ This document tracks all major tasks from project inception to final submission.
 - [ ] **Task 4.2:** Kaggle Submission Preparation:
     - [ ] **Task 4.2.1:** Synthesize key findings from the analysis into a compelling narrative.
     - [ ] **Task 4.2.2:** Create up to five `findings.json` files for the most significant exploits.
-    - [ ] **Task 4.2.3:** Draft the final Kaggle Writeup (max 3,000 words).
+    - [ ] **Task 4.2.3:** **Develop a script to export game logs from `games.db` into the required `harmony_response_walkthroughs` JSON format.**
+    - [ ] **Task 4.2.4:** Draft the final Kaggle Writeup (max 3,000 words).
 - [ ] **Task 4.3:** Final Documentation Update:
     - [ ] **Task 4.3.1:** Ensure all documentation (`README.md`, `DEVELOPMENT_SETUP.md`, etc.) is finalized and reflects the completed project.
 - [ ] **Task 4.4:** Final Review & Submission:
