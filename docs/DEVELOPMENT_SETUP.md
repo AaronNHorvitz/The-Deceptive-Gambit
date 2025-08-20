@@ -31,6 +31,8 @@ After installing git-lfs, you must run its one-time setup command:
 git lfs install
 ```
 
+**Verification:**  After installation, run `which stockfish`. This should output a path (e.g., `/usr/games/stockfish`). Ensure this path matches the `stockfish:` entry in your `config.yaml` file.
+
 
 **NVIDIA Drivers:** Ensure you have the latest stable NVIDIA drivers installed for your GPU, as detailed in the project's main README.md.
 
