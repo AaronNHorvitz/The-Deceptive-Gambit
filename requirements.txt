@@ -13,5 +13,10 @@ scipy
 statsmodels
 jupyterlab
 
+# Development & Testing Tools
+pytest
+black         
+ruff         
+
 # Config File Parsing
 PyYAML
