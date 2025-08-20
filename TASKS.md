@@ -36,12 +36,12 @@ This document tracks all major tasks from project inception to final submission.
 - [x] **Task 2.2:** Database Unit Tests (`src/tests/test_database.py`):
     - [x] **Task 2.2.1:** Write tests to verify database creation and table schemas.
     - [x] **Task 2.2.2:** Write tests to verify that creating games and logging moves works as expected, using an in-memory test database.
-- [ ] **Task 2.3:** LLM Handler Module (`src/gambit/llm_handler.py`):
-    - [ ] **Task 2.3.1:** Create a class to initialize the `vLLM` client and load the model.
-    - [ ] **Task 2.3.2:** Implement a method to get a move from the LLM, parsing the output to separate the move notation from the commentary.
-- [ ] **Task 2.4:** LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):
-    - [ ] **Task 2.4.1:** Write tests to verify the output parsing logic.
-    - [ ] **Task 2.4.2:** Mock the `vLLM` call to test the handler's logic without requiring a GPU.
+- [x] **Task 2.3:** LLM Handler Module (`src/gambit/llm_handler.py`):
+    - [x] **Task 2.3.1:** Create a class to initialize the `vLLM` client and load the model.
+    - [x] **Task 2.3.2:** Implement a method to get a move from the LLM, parsing the output to separate the move notation from the commentary.
+- [x] **Task 2.4:** LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):
+    - [x] **Task 2.4.1:** Write tests to verify the output parsing logic.
+    - [x] **Task 2.4.2:** Mock the `vLLM` call to test the handler's logic without requiring a GPU.
 - [ ] **Task 2.5:** Game Manager Module (`src/gambit/game_manager.py`):
     - [ ] **Task 2.5.1:** Create a class to orchestrate a single game of chess.
     - [ ] **Task 2.5.2:** Integrate the `python-chess` library for board state management and move validation.
