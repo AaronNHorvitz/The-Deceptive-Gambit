@@ -42,15 +42,15 @@ This document tracks all major tasks from project inception to final submission.
 - [x] **Task 2.4:** LLM Handler Unit Tests (`src/tests/test_llm_handler.py`):
     - [x] **Task 2.4.1:** Write tests to verify the output parsing logic.
     - [x] **Task 2.4.2:** Mock the `vLLM` call to test the handler's logic without requiring a GPU.
-- [ ] **Task 2.5:** Game Manager Module (`src/gambit/game_manager.py`):
-    - [ ] **Task 2.5.1:** Create a class to orchestrate a single game of chess.
-    - [ ] **Task 2.5.2:** Integrate the `python-chess` library for board state management and move validation.
-    - [ ] **Task 2.5.3:** Implement the main game loop logic (engine move -> LLM move -> validation).
-    - [ ] **Task 2.5.4:** Implement the "confrontation" logic for handling illegal moves.
-- [ ] **Task 2.6:** Game Manager Unit Tests (`src/tests/test_game_manager.py`):
-    - [ ] **Task 2.6.1:** Write tests to verify game initialization and state transitions.
-    - [ ] **Task 2.6.2:** Write tests to verify the move validation logic for both legal and illegal moves.
-    - [ ] **Task 2.6.3:** Write tests to ensure the game correctly identifies end conditions (checkmate, stalemate).
+- [x] **Task 2.5:** Game Manager Module (`src/gambit/game_manager.py`):
+    - [x] **Task 2.5.1:** Create a class to orchestrate a single game of chess.
+    - [x] **Task 2.5.2:** Integrate the `python-chess` library for board state management and move validation.
+    - [x] **Task 2.5.3:** Implement the main game loop logic (engine move -> LLM move -> validation).
+    - [x] **Task 2.5.4:** Implement the "confrontation" logic for handling illegal moves.
+- [x] **Task 2.6:** Game Manager Unit Tests (`src/tests/test_game_manager.py`):
+    - [x] **Task 2.6.1:** Write tests to verify game initialization and state transitions.
+    - [x] **Task 2.6.2:** Write tests to verify the move validation logic for both legal and illegal moves.
+    - [x] **Task 2.6.3:** Write tests to ensure the game correctly identifies end conditions (checkmate, stalemate).
 
 ---
 
