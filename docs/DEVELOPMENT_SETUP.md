@@ -83,12 +83,14 @@ To download the models, you need to log in to your Hugging Face account from the
 huggingface-cli login
 ```
 
-## Step 6: Download the LLM Model Weights
-This project requires two sets of model weights. Run these commands from the project root directory.
+## Step 6: Download & Organize LLM Weights
+This project requires two sets of model weights. Run these commands from the project root directory. This multi-part step downloads both required models and ensures they are correctly placed in the src/models/ directory.
 
 - Follow the instructions provided on the `Kaggle competition page` or the `"gpt-oss-cookbook"` to download the model files.
 - Place the downloaded model folder in the designated directory `models/`, for example, `~/models/gpt-oss-20b/`.
 - Update the `model.identifier` path in your `config.yaml` file to point to this local directory.
+
+
 
 1. **Download the Persona Bot Model (`gemma-2b-it`)**
 ```bash
@@ -100,7 +102,14 @@ git clone [https://huggingface.co/google/gemma-2b-it](https://huggingface.co/goo
 # Use the official command from the model card, targeting our project's directory
 huggingface-cli download openai/gpt-oss-20b --include "original/*" --local-dir src/models/gpt-oss-20b
 ```
+3. **Organize the `gpt-oss-20b` Files:**
 
+The download command above creates an extra `original/` sub-directory. These commands move the files up one level and remove the now-empty folder for a clean, predictable structure.
+
+```bash
+mv src/models/gpt-oss-20b/original/* src/models/gpt-oss-20b/
+rmdir src/models/gpt-oss-20b/original/
+```
 
 # 3. Final Verification
 
