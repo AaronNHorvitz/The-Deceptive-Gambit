@@ -56,9 +56,9 @@ This document tracks all major tasks from project inception to final submission.
 
 ## Phase 3: Integration & Experimentation 
 
-- [ ] **Task 3.1:** Main Script Integration (`main.py`):
-    - [ ] **Task 3.1.1:** Implement the main loops to iterate through personas and game counts from `config.yaml`.
-    - [ ] **Task 3.1.2:** Integrate the `GameManager` class and add robust error handling.
+- [x] **Task 3.1:** Main Script Integration (`main.py`):
+    - [x] **Task 3.1.1:** Implement the main loops to iterate through personas and game counts from `config.yaml`.
+    - [x] **Task 3.1.2:** Integrate the `GameManager` class and add robust error handling.
 - [ ] **Task 3.2:** Pilot Experiment Run:
     - [ ] **Task 3.2.1:** Run the experiment with `num-games = 5` for all personas.
     - [ ] **Task 3.2.2:** Use `notebooks/002_full_experiment_run.ipynb` to trigger and monitor the pilot.
