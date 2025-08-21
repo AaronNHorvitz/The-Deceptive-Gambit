@@ -6,17 +6,15 @@ from gambit.llm_handler import LLMHandler
 from gambit.database import get_or_create_game, log_move
 
 class GameManager:
-    """
-    Orchestrates a single game of chess between an LLM and the Stockfish engine,
-    logging all interactions to the database.
-    """
-    def __init__(self, config: dict, db_session, llm_handler: LLMHandler, persona_name: str):
+    def __init__(self, config: dict, db_session, llm_handler: LLMHandler, persona_name: str, starting_fen: str = None):
         self.config = config
         self.db_session = db_session
         self.llm_handler = llm_handler
         self.persona_name = persona_name
         
-        self.board = chess.Board()
+        # UPDATED LINE: Initialize the board with an optional starting position (FEN).
+        self.board = chess.Board(starting_fen)
+        
         self.game_record = get_or_create_game(self.db_session, self.persona_name)
         
         engine_path = self.config['paths']['stockfish']

@@ -41,16 +41,22 @@ def test_play_turn_legal_move(mock_dependencies, mock_config):
     llm_handler, db_session, _ = mock_dependencies
     llm_handler.get_response.return_value = ("e7e5", "A simple reply.")
 
-    manager = GameManager(config=mock_config, db_session=db_session, llm_handler=llm_handler, persona_name="Test")
-    manager.board = chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2")
+    # UPDATED PART: We now pass the starting FEN directly into the constructor.
+    # We no longer manually override manager.board.
+    starting_fen = "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2"
+    manager = GameManager(
+        config=mock_config, 
+        db_session=db_session, 
+        llm_handler=llm_handler, 
+        persona_name="Test",
+        starting_fen=starting_fen
+    )
     
-    # Capture the board state BEFORE the move is made
     pre_move_fen = manager.board.fen()
-    
     manager._play_llm_turn()
 
     from gambit.game_manager import log_move
-    # Assert that the log reflects the state BEFORE the move
+    
     log_move.assert_called_with(
         session=db_session, 
         game_id=1, 
@@ -61,7 +67,6 @@ def test_play_turn_legal_move(mock_dependencies, mock_config):
         llm_commentary="A simple reply.",
         board_state_fen=pre_move_fen
     )
-    # Assert that the board state has been updated correctly AFTER the move
     assert manager.board.fen() == "rnbqkbnr/pppp1ppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3"
 
 
