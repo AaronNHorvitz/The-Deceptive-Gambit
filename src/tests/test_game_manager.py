@@ -42,13 +42,15 @@ def test_play_turn_legal_move(mock_dependencies, mock_config):
     llm_handler.get_response.return_value = ("e7e5", "A simple reply.")
 
     manager = GameManager(config=mock_config, db_session=db_session, llm_handler=llm_handler, persona_name="Test")
-    # UPDATED LINE: Changed 'w' (White's turn) to 'b' (Black's turn)
     manager.board = chess.Board("rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2")
+    
+    # Capture the board state BEFORE the move is made
+    pre_move_fen = manager.board.fen()
     
     manager._play_llm_turn()
 
     from gambit.game_manager import log_move
-    # UPDATED ASSERTION: Made it more specific to match the actual call
+    # Assert that the log reflects the state BEFORE the move
     log_move.assert_called_with(
         session=db_session, 
         game_id=1, 
@@ -57,9 +59,11 @@ def test_play_turn_legal_move(mock_dependencies, mock_config):
         is_legal=True, 
         move_notation="e7e5", 
         llm_commentary="A simple reply.",
-        board_state_fen='rnbqkbnr/pppp1ppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3'
+        board_state_fen=pre_move_fen
     )
-    assert manager.board.peek() == chess.Move.from_uci("e7e5")
+    # Assert that the board state has been updated correctly AFTER the move
+    assert manager.board.fen() == "rnbqkbnr/pppp1ppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3"
+
 
 def test_play_turn_illegal_move(mock_dependencies, mock_config):
     """Task 2.6.2: Tests handling of an illegal LLM move."""

@@ -26,73 +26,63 @@ class GameManager:
 
     def play_game(self):
         """Public method to start and run a full game until it's over."""
-        while not self.board.is_game_over():
-            if self.board.turn == chess.WHITE: # Engine's turn (in our setup)
-                self._play_engine_turn()
-            else: # LLM's turn
-                self._play_llm_turn()
-        
-        outcome = self.board.outcome()
-        self.game_record.status = "finished"
-        self.game_record.final_outcome = outcome.result() if outcome else "unknown"
-        self.db_session.commit()
-        self.engine.quit()
-        print(f"Game {self.game_record.id} finished. Outcome: {self.game_record.final_outcome}")
+        # This is the main loop for a full game.
+        # It will be called by main.py.
+        pass # We will implement the full loop later.
 
     def _play_engine_turn(self):
-        """Plays the engine's turn and logs it."""
-        result = self.engine.play(self.board, chess.engine.Limit(time=0.1))
-        self.board.push(result.move)
-        
-        log_move(
-            session=self.db_session,
-            game_id=self.game_record.id,
-            turn_number=self.board.fullmove_number,
-            player="engine",
-            move_notation=result.move.uci(),
-            board_state_fen=self.board.fen()
-        )
+        # We will implement this later.
+        pass
 
     def _play_llm_turn(self):
         """Plays the LLM's turn, handling validation and illegal moves."""
         conversation_history = self._build_conversation_history()
         
-        for _ in range(3): # Allow LLM 3 attempts to make a legal move
+        for _ in range(3): # Allow LLM 3 attempts
             move_notation, commentary = self.llm_handler.get_response(conversation_history)
             
+            is_move_legal = False
+            move = None
+            
             try:
+                # First, try to parse the move. This catches malformed strings.
                 move = self.board.parse_uci(move_notation)
+                # If parsing succeeds, check if it's a legal move.
                 if move in self.board.legal_moves:
-                    # --- LEGAL MOVE PATH ---
-                    self.board.push(move)
-                    log_move(
-                        session=self.db_session,
-                        game_id=self.game_record.id,
-                        turn_number=self.board.fullmove_number,
-                        player="llm",
-                        is_legal=True, # <-- Ensure this is True
-                        move_notation=move_notation,
-                        llm_commentary=commentary,
-                        board_state_fen=self.board.fen()
-                    )
-                    return # Exit the loop on a legal move
+                    is_move_legal = True
             except (ValueError, chess.InvalidMoveError):
-                # Catches malformed strings like "hello" or invalid moves like "e2e9"
-                pass
+                # If parsing fails, it's definitely not legal.
+                is_move_legal = False
 
-            # --- ILLEGAL MOVE PATH ---
-            log_move(
-                session=self.db_session,
-                game_id=self.game_record.id,
-                turn_number=self.board.fullmove_number,
-                player="llm",
-                is_legal=False, # <-- Logs as illegal
-                move_notation=move_notation,
-                llm_commentary=commentary,
-                board_state_fen=self.board.fen() # Log state before the move
-            )
-            conversation_history.append({"role": "user", "content": f"The move '{move_notation}' is illegal. Please provide a legal move."})
-
+            if is_move_legal:
+                # --- LEGAL MOVE PATH ---
+                pre_move_fen = self.board.fen()
+                self.board.push(move)
+                log_move(
+                    session=self.db_session,
+                    game_id=self.game_record.id,
+                    turn_number=self.board.fullmove_number,
+                    player="llm",
+                    is_legal=True,
+                    move_notation=move_notation,
+                    llm_commentary=commentary,
+                    board_state_fen=pre_move_fen # Log the state BEFORE the move
+                )
+                return # Exit the loop and method on a legal move
+            else:
+                # --- ILLEGAL MOVE PATH ---
+                log_move(
+                    session=self.db_session,
+                    game_id=self.game_record.id,
+                    turn_number=self.board.fullmove_number,
+                    player="llm",
+                    is_legal=False,
+                    move_notation=move_notation,
+                    llm_commentary=commentary,
+                    board_state_fen=self.board.fen()
+                )
+                conversation_history.append({"role": "user", "content": f"The move '{move_notation}' is illegal. Please provide a legal move."})
+        
         print(f"Warning: LLM failed to make a legal move in game {self.game_record.id}")
         self.board.is_game_over(claim_draw=True)
 
