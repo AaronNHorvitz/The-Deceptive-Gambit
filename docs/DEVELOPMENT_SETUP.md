@@ -90,8 +90,6 @@ This project requires two sets of model weights. Run these commands from the pro
 - Place the downloaded model folder in the designated directory `models/`, for example, `~/models/gpt-oss-20b/`.
 - Update the `model.identifier` path in your `config.yaml` file to point to this local directory.
 
-
-
 1. **Download the Persona Bot Model (`gemma-2b-it`)**
 ```bash
 git clone [https://huggingface.co/google/gemma-2b-it](https://huggingface.co/google/gemma-2b-it) src/models/gemma-2b-it
