@@ -1,6 +1,11 @@
-# Core ML & Inference
-torch
-vllm
+# -- Special vLLM build for gpt-oss --
+--pre
+--extra-index-url https://wheels.vllm.ai/gpt-oss/
+--extra-index-url https://download.pytorch.org/whl/nightly/cu128
+vllm==0.10.1+gptoss
+
+# -- Core Project Dependencies --
+# Note: torch, openai, etc. are handled by the vLLM install above
 
 # Chess Logic
 python-chess
@@ -14,6 +19,7 @@ statsmodels
 jupyterlab
 
 # API Clients
+# Pinned to the version compatible with the special vLLM build
 openai==1.88.0
 
 # Development & Testing Tools
