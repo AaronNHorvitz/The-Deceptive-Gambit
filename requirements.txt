@@ -13,10 +13,13 @@ scipy
 statsmodels
 jupyterlab
 
+# API Clients
+openai==1.88.0
+
 # Development & Testing Tools
 pytest
-black         
-ruff         
+black
+ruff
 
 # Config File Parsing
 PyYAML
