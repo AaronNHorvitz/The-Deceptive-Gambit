@@ -30,6 +30,7 @@ class LLMHandler:
                 'num_predict': params.get('max_tokens', 150),
             }
         )
+        print(response) # Debug print statement <---- This one
         raw_text = response['message']['content']
         print(f"[LLM RAW RESPONSE]: {raw_text}") # Debug print statement
         
