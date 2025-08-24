@@ -125,6 +125,7 @@ The-Deceptive-Gambit/
 │   │   ├── init.py
 │   │   ├── database.py        # Handles all database schema and interactions
 │   │   ├── game_manager.py    # Orchestrates the game logic and flow
+│   │   ├── move_utils.py      # Safe move applier
 │   │   └── llm_handler.py     # Handles communication with the Ollama server
 │   └── tests/                 # Unit tests for the gambit package
 │       ├── init.py
