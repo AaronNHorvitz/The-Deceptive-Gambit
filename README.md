@@ -35,8 +35,6 @@ Is the model's cheating a simple technical breakdown, or is it a more complex so
 1.  **Hypothesis 1 (Mechanistic Failure):** The model breaks down and makes errors in complex, losing positions, regardless of the opponent.
 2.  **Hypothesis 2 (Social Deception):** The model's behavior *changes* based on social context and is more likely to cheat against an opponent it perceives as naive or beatable.
 
-![Conceptual Results Chart](https://i.imgur.com/uS5wE2H.png)
-
 ## Project Roadmap (Deadline: Aug 26)
 
 * [x] **Phase 1 (Aug 20-23):** Project Setup, Refactoring & Planning
