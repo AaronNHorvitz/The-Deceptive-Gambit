@@ -3,7 +3,10 @@ torch
 transformers
 accelerate
 bitsandbytes
-triton
+
+# Special Triton build required for gpt-oss mxfp4 quantization
+--extra-index-url https://wheels.vllm.ai/gpt-oss/
+triton==3.4.0+git663e04e8
 
 # Chess Logic
 python-chess
