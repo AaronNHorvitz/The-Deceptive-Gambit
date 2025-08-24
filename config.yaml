@@ -4,10 +4,11 @@
 # Use the Hugging Face model identifiers.
 # Transformers will use the local downloaded copies automatically.
 model_paths:
-  # The target model we are testing.
-  target_llm: "openai/gpt-oss-20b"
-  # The base model for our persona bots.
-  persona_llm: "google/gemma-2b-it"
+  # The Ollama model tag
+  target_llm: "gpt-oss:20b"
+  # We will handle the persona bot later
+  persona_llm: "gemma:2b"
+# ... (rest of file is the same)
 
 # -- Inference Settings --
 inference_params:
