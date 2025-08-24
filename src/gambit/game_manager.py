@@ -31,11 +31,26 @@ class GameManager:
         else:
             self.target_llm = target_llm_handler
             self.persona_llm = persona_llm_handler
-
         self.board = chess.Board()
         self.starting_fen = starting_fen or chess.STARTING_FEN
         if starting_fen:
             self.board.set_fen(starting_fen)
+
+        # Track most recent quotes for the end summary
+        self.last_llm_comment = ""
+        self.last_persona_comment = ""
+
+        # Build a pretty per-move (fullmove) log we’ll print at the end:
+        # Each element: {
+        #   "no": int,
+        #   "white": {"name": str, "san": str, "legal": bool, "quote": str},
+        #   "black": {"name": str, "san": str, "legal": bool, "quote": str}
+        # }
+        self.pretty_fullmoves = []
+        
+        # Track the most recent commentary lines for the final summary
+        self.last_llm_comment = ""          
+        self.last_persona_comment = ""      
 
         self.game_record = database.get_or_create_game(self.db_session, self.persona_name)
 
@@ -44,18 +59,32 @@ class GameManager:
         skill = self.config['experiment']['engine_skill_level']
         self.engine.configure({"Skill Level": skill})
 
+    def _names(self):
+        gpt_name = self.config.get("names", {}).get("gpt", "GPT")
+        persona_display = self.config["personas"][self.persona_name].get("display_name", self.persona_name)
+        return gpt_name, persona_display
+
+    def _debug(self) -> bool:
+        return bool(self.config.get("debug_prints"))
+
+
     def play_game(self):
         try:
             while not self.board.is_game_over():
-                print(f"[LOOP] start turn={'White' if self.board.turn == chess.WHITE else 'Black'} FEN={self.board.fen()}")
+                if self._debug():
+                    print(f"[LOOP] start turn={'White' if self.board.turn == chess.WHITE else 'Black'} FEN={self.board.fen()}")
                 if self.board.turn == chess.WHITE:
-                    print("[LOOP] calling _play_opponent_turn")
+                    if self._debug():
+                        print("[LOOP] calling _play_opponent_turn")
                     self._play_opponent_turn()
                 else:  # Black's turn (our target LLM)
-                    print("[LOOP] calling _play_llm_turn")
+                    if self._debug():
+                        print("[LOOP] calling _play_llm_turn")
                     self._play_llm_turn()
-                print("[LOOP] calling _print_game_record")
-                self._print_game_record()
+                if self._debug():
+                    print("[LOOP] calling _print_game_record")
+                #self._print_game_rec
+                # ord()
             self._print_final_summary()
         finally:
             try:
@@ -65,33 +94,42 @@ class GameManager:
 
 
     def _play_opponent_turn(self):
+
         # Stockfish (White) plays
-        print("[OPP] engine.play(...)")
+        if self._debug():
+            print("[OPP] engine.play(...)")
         result = self.engine.play(self.board, chess.engine.Limit(time=0.1))
         engine_uci = result.move.uci()
-        print(f"[OPP] engine_uci={engine_uci}")
+        if self._debug():
+            print(f"[OPP] engine_uci={engine_uci}")
 
         # PRE-move FEN for DB (if DB replays/validates it needs White to move)
         fen_before = self.board.fen()
-        print(f"[OPP] fen_before={fen_before}")
+        if self._debug():
+            print(f"[OPP] fen_before={fen_before}")
 
         # SAN from current (pre-push) position
         mv = chess.Move.from_uci(engine_uci)
-        print(f"[OPP] mv in legal? {mv in self.board.legal_moves}")
+
+        if self._debug():
+            print(f"[OPP] mv in legal? {mv in self.board.legal_moves}")
         san = self.board.san(mv)
-        print(f"[OPP] san={san}")
+        if self._debug():
+            print(f"[OPP] san={san}")
 
         # Persona reacts to SAN (does not mutate the board)
         commentary = ""
         try:
             prompt = self._build_prompt_for_persona(san)
             _, commentary = self.persona_llm.get_response(prompt)
+            self.last_persona_comment = commentary or self.last_persona_comment
         except Exception as e:
             print(f"[WARN] persona_llm failed: {e}")
 
         # LOG FIRST, against PRE-move FEN, but NEVER let DB kill the turn
         try:
-            print("[OPP] database.log_move(...) pre-push")
+            if self._debug():
+                print("[OPP] database.log_move(...) pre-push")
             database.log_move(
                 session=self.db_session,
                 game_id=self.game_record.id,
@@ -101,20 +139,24 @@ class GameManager:
                 llm_commentary=commentary,
                 board_state_fen=fen_before,              # critical: pre-push FEN
             )
-            print("[OPP] database.log_move ok")
+            if self._debug():
+                print("[OPP] database.log_move ok")
         except Exception as e:
             print(f"[WARN] log_move failed (engine turn): {e}")
 
         # EXTRA GUARD: ensure engine move matches side-to-move before applying
         if not is_move_color_correct(self.board, engine_uci):
-            print(f"[GUARD] rejecting wrong-color engine move {engine_uci} at FEN={self.board.fen()}")
+            if self._debug():
+                print(f"[GUARD] rejecting wrong-color engine move {engine_uci} at FEN={self.board.fen()}")
             return
 
         # APPLY ONCE on the live board (this is legal here)
         try:
-            print("[OPP] apply_uci_once(...)")
+            if self._debug():
+                print("[OPP] apply_uci_once(...)")
             apply_uci_once(self.board, engine_uci)
-            print(f"[OPP] after push FEN={self.board.fen()}")
+            if self._debug():
+                print(f"[OPP] after push FEN={self.board.fen()}")
         except Exception as e:
             # Even if something bizarre happens, don't crash the game
             print(f"[WARN] failed to apply engine move {engine_uci}: {e}")
@@ -131,6 +173,7 @@ class GameManager:
         # Ask the LLM for a move
         prompt = self._build_llm_prompt()
         move_uci, commentary = self.target_llm.get_response(prompt)
+        self.last_llm_comment = commentary or self.last_llm_comment
 
         # Print what the LLM *proposed* BEFORE attempting to apply it
         self._print_turn_summary("llm", move_uci, commentary)
@@ -166,6 +209,7 @@ class GameManager:
         # Retry once if first was illegal — again, print first, then attempt
         retry_pre_fen = self.board.fen()
         move_uci2, commentary2 = self.target_llm.get_response(self._build_llm_prompt())
+        self.last_llm_comment = commentary2 or self.last_llm_comment
         self._print_turn_summary("llm", move_uci2, commentary2)
 
         is_legal2 = False
@@ -208,7 +252,9 @@ class GameManager:
                     llm_commentary="[fallback: engine]",
                     board_state_fen=self.board.fen(),
                 )
+                self.last_llm_comment = "[fallback: engine]"
                 return
+            
             except Exception as e:
                 # Option B: deterministic simple fallback (first legal move)
                 try:
@@ -226,6 +272,7 @@ class GameManager:
                         llm_commentary="[fallback: first-legal]",
                         board_state_fen=self.board.fen(),
                     )
+                    self.last_llm_comment = "[fallback: first-legal]"
                     return
                 except StopIteration:
                     # No legal moves → the position is actually terminal; let the loop finish.
@@ -281,7 +328,44 @@ class GameManager:
             self.game_record.final_outcome = outcome.result()
             self.db_session.commit()
             result = self.game_record.final_outcome
+
         print(f"\n--- GAME OVER ---")
         print(f"Game {self.game_record.id} finished. Outcome: {result}")
+
+        # Pretty score table
+        self._print_score_table()
+
+        # Final quotes (use last non-empty seen during the game)
+        if self.last_llm_comment or self.last_persona_comment:
+            print()
+            print(f'- GPT says, "{self.last_llm_comment or ""}"')
+            print(f'- {self.persona_name} says, "{self.last_persona_comment or ""}"')
+
+    def _moves_rows(self):
+        """Return [(move_no, white_san, black_san), ...] from the move stack."""
+        base = chess.Board(self.starting_fen)
+        moves = list(self.board.move_stack)
+        rows = []
+        move_no = 1
+        i = 0
+        while i < len(moves):
+            w_san = base.san(moves[i]); base.push(moves[i]); i += 1
+            b_san = ""
+            if i < len(moves):
+                b_san = base.san(moves[i]); base.push(moves[i]); i += 1
+            rows.append((move_no, w_san, b_san))
+            move_no += 1
+        return rows
+
+    def _print_score_table(self):
+        """Pretty-prints the game as a Move/White/Black table."""
+        rows = self._moves_rows()
+        if not rows:
+            print("No moves played.")
+            return
+        print('\nMove\tWhite\tBlack')  # header
+        for n, w, b in rows:
+            print(f"{n}.\t{w}\t{b}")
+
 
 
