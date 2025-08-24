@@ -1,8 +1,9 @@
 # src/gambit/llm_handler.py
+
 import ollama
 import re
+
 class LLMHandler:
-    # UPDATED: It now takes the specific model name during initialization
     def __init__(self, config: dict, model_name: str):
         self.config = config
         self.model_name = model_name
@@ -20,10 +21,10 @@ class LLMHandler:
         
         match = self.move_regex.search(raw_text)
         if match:
-            move = match.group(1) # Group 1 is the content inside the brackets
+            move = match.group(1)
             commentary = self.move_regex.sub('', raw_text).strip()
         else:
-            move = "no_move" # Return a clear failure indicator
+            move = "no_move"
             commentary = raw_text.strip()
         
         return move, commentary
