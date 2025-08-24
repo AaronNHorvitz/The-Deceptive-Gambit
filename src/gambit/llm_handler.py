@@ -1,6 +1,5 @@
 # src/gambit/llm_handler.py
 
-# src/gambit/llm_handler.py
 import ollama
 import re
 
