@@ -90,55 +90,58 @@ Is the model's cheating a simple technical breakdown, or is it a more complex so
 ## Project Structure
 ```
 The-Deceptive-Gambit/
-|
 ├── .venv/
-|
 ├── assets/
-│   └── results_chart.png
-|
 ├── data/
-│   └── games.db
-|
 ├── docs/
-│   ├── DEVELOPMENT_SETUP.md
-│   ├── EXPERIMENTAL_DESIGN.md
-│   ├── FILE_ARCHITECTURE.md
-│   └── research_papers/
-│       └── paper1.pdf
-|
 ├── notebooks/
-│   ├── 001_game_mechanics_test.ipynb
-│   ├── 002_full_experiment_run.ipynb
-│   └── 003_results_analysis.ipynb
-|
 ├── src/
-│   ├── gambit/
-│   |   ├── __init__.py
-│   |   ├── database.py
-│   |   ├── game_manager.py
-│   |   ├── llm_handler.py
-│   |   └── additional files as needed...
-│   | 
-│   ├── models/
-|   |   ├── gemma-2b-it
-│   |   └── gpt-oss-20b
-│   |  
-│   └── tests/
-│       ├── __init__.py
-│       ├── test_database.py
-│       ├── test_game_manager.py
-│       ├── test_llm_handler.py
-│       └── additional tests as needed...
-|
-├── .gitattributes
 ├── .gitignore
-├── LICENSE                      # The CC0 License file
+├── LICENSE
 ├── README.md
 ├── TASKS.md
 ├── pyproject.toml
-├── config.yaml                  # Central place for all parameters
-├── main.py                      # Main executable script
-└── requirements.txt             # Python package dependencies
+├── config.yaml
+├── main.py
+└── requirements.txt
+```
+
+## Directory Breakdown
+
+```
+The-Deceptive-Gambit/
+├── .venv/                     # Python virtual environment (ignored by Git)
+├── assets/
+│   └── results_chart.png      # Image assets for documentation
+├── data/
+│   └── games.db               # SQLite database for storing all game results
+├── docs/
+│   ├── DEVELOPMENT_SETUP.md   # Guide for setting up the development environment
+│   ├── EXPERIMENTAL_DESIGN.md # The formal scientific plan
+│   └── FILE_ARCHITECTURE.md   # This file
+├── notebooks/                 # Exploratory and analytical notebooks
+│   ├── 001_smoke_test.ipynb
+│   └── 002_final_analysis.ipynb
+├── src/                       # Main source code directory
+│   ├── gambit/                # The core Python package for the project
+│   │   ├── init.py
+│   │   ├── database.py        # Handles all database schema and interactions
+│   │   ├── game_manager.py    # Orchestrates the game logic and flow
+│   │   └── llm_handler.py     # Handles communication with the Ollama server
+│   └── tests/                 # Unit tests for the gambit package
+│       ├── init.py
+│       ├── test_database.py
+│       ├── test_game_manager.py
+│       └── test_llm_handler.py
+├── .gitattributes             # Defines attributes for Git paths
+├── .gitignore                 # Specifies intentionally untracked files
+├── LICENSE                    # The CC0 1.0 Universal license file
+├── README.md                  # The main project overview
+├── TASKS.md                   # The detailed project task list
+├── pyproject.toml             # Python project metadata for packaging and tools
+├── config.yaml                # Central configuration for all parameters
+├── main.py                    # Main executable script to run the experiment
+└── requirements.txt           # Python package dependencies
 ```
 ---
 ## Contributors
