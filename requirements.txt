@@ -1,12 +1,5 @@
-# Core ML & Inference
-torch
-transformers
-accelerate
-bitsandbytes
-
-# Special Triton build required for gpt-oss mxfp4 quantization
---extra-index-url https://wheels.vllm.ai/gpt-oss/
-triton==3.4.0+git663e04e8
+# Main Application
+ollama
 
 # Chess Logic
 python-chess
