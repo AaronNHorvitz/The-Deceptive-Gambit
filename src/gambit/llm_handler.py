@@ -1,43 +1,37 @@
 # src/gambit/llm_handler.py
 
-import openai
+import torch
+from transformers import pipeline
 
 class LLMHandler:
     """
-    Handles all communication with a vLLM-served, OpenAI-compatible API.
+    Handles loading and running a model locally using Hugging Face Transformers.
     """
-    def __init__(self, config: dict, base_url: str = "http://localhost:8000/v1"):
+    def __init__(self, config: dict):
         self.config = config
-        self.model_name = config['model_paths']['target_llm']
-        self.client = openai.OpenAI(
-            base_url=base_url,
-            api_key="EMPTY" # vLLM server does not require an API key
+        self.model_path = config['model_paths']['target_llm']
+        self.pipe = pipeline(
+            "text-generation",
+            model=self.model_path,
+            torch_dtype=torch.bfloat16,
+            device_map="auto",
         )
 
     def get_response(self, conversation_history: list) -> tuple[str, str]:
         """
         Gets a response from the LLM and parses it into a move and commentary.
-
-        Args:
-            conversation_history: A list of messages in OpenAI format.
-
-        Returns:
-            A tuple containing the move notation (str) and the commentary (str).
         """
         params = self.config['inference_params']
         
-        response = self.client.chat.completions.create(
-            model=self.model_name,
-            messages=conversation_history,
-            temperature=params.get('temperature', 0.7),
-            top_p=params.get('top_p', 1.0),
-            max_tokens=params.get('max_tokens', 150),
+        outputs = self.pipe(
+            conversation_history,
+            max_new_tokens=params.get('max_tokens', 150),
+            # Note: Other params like temp/top_p might need to be passed differently
+            # depending on the pipeline version. We'll start simple.
         )
-
-        raw_text = response.choices[0].message.content
+        # The pipeline returns the full conversation. The last message is the new one.
+        raw_text = outputs[0]["generated_text"][-1]['content']
         
-        # Simple parsing logic: assume the move is the first "word"
-        # separated by a comma from the rest of the commentary.
         parts = raw_text.split(',', 1)
         move = parts[0].strip()
         commentary = parts[1].strip() if len(parts) > 1 else ""

@@ -1,44 +1,38 @@
 # src/tests/test_llm_handler.py
 
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
-# Import the code we are ABOUT to write
 from gambit.llm_handler import LLMHandler
 
 @pytest.fixture
 def mock_config():
     """Provides a mock configuration for tests."""
     return {
-        'model_paths': {
-            'target_llm': 'mock/model',
-        },
-        'inference_params': {
-            'temperature': 0.7,
-            'top_p': 0.95,
-            'max_tokens': 150,
-        }
+        'model_paths': {'target_llm': 'mock/model'},
+        'inference_params': {'max_tokens': 150}
     }
 
-def test_llm_handler_initialization(mock_config):
-    """Task 2.4.1: Tests that the LLMHandler class can be initialized."""
+# Patch the pipeline function from the transformers library
+@patch('transformers.pipeline')
+def test_llm_handler_parsing(mock_pipeline, mock_config):
+    """Tests that the handler correctly initializes and parses the pipeline's output."""
+    # This is the fake output we want our mocked pipeline to produce
+    mock_output = [
+        {"generated_text": [
+            {"role": "system", "content": "..."},
+            {"role": "user", "content": "..."},
+            {"role": "assistant", "content": "e7e5, an interesting, if somewhat passive, response."}
+        ]}
+    ]
+    # Configure the mock to return our fake output
+    mock_pipeline.return_value = MagicMock(return_value=mock_output)
+
+    # Initialize the handler (this will use the mocked pipeline)
     handler = LLMHandler(config=mock_config)
     assert handler is not None
-    # UPDATED LINE: Added str() for a robust comparison and the trailing slash.
-    assert str(handler.client.base_url) == "http://localhost:8000/v1/"
 
-def test_get_response_parsing(mock_config, monkeypatch):
-    """Task 2.4.2: Tests that the handler correctly parses the LLM's output."""
-    mock_response = MagicMock()
-    mock_response.choices[0].message.content = "e7e5, an interesting, if somewhat passive, response."
-    
-    mock_client = MagicMock()
-    mock_client.chat.completions.create.return_value = mock_response
-
-    monkeypatch.setattr("openai.OpenAI", lambda base_url, api_key: mock_client)
-
-    handler = LLMHandler(config=mock_config)
+    # Call the method and check the parsing logic
     move, commentary = handler.get_response(conversation_history=[])
-
     assert move == "e7e5"
     assert commentary == "an interesting, if somewhat passive, response."
