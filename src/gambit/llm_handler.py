@@ -8,7 +8,7 @@ class LLMHandler:
         self.config = config
         self.model_name = model_name
         self.client = ollama.Client()
-        self.move_regex = re.compile(r"\[\[([a-h][1-8][a-h][1-8][qrbn]?)\]\]")
+        self.move_regex = re.compile(r"\[\s*\[([a-h][1-8][a-h][1-8][qrbn]?)\]\s*\]")
 
     def get_response(self, conversation_history: list) -> tuple[str, str]:
         params = self.config['inference_params']
