@@ -34,9 +34,10 @@ def main():
     print(f"Database initialized at: {db_path}")
 
     # 3. Initialize the LLM Handler
-    # This will connect to the vLLM server which must be running in a separate terminal.
+    # This will load the gpt-oss-20b model into the GPU. This may take a few minutes.
+    print("Initializing LLM Handler and loading model into GPU memory...")
     llm_handler = LLMHandler(config=config)
-    print("LLM Handler initialized.")
+    print("Model loaded successfully.")
 
     # 4. Determine which personas and how many games to run
     if args.persona:
@@ -44,6 +45,7 @@ def main():
             raise ValueError(f"Persona '{args.persona}' not found in config.yaml")
         personas_to_run = [args.persona]
     else:
+        # Default to all personas if none are specified
         personas_to_run = config['personas'].keys()
 
     if args.num_games:
@@ -53,28 +55,26 @@ def main():
     else:
         num_games_to_run = config['experiment']['full_num_games']
 
-
     print(f"\nStarting experiment for personas: {', '.join(personas_to_run)}")
     print(f"Number of games per persona: {num_games_to_run}\n")
 
     # 5. Core Experiment Loop
     for persona_name in personas_to_run:
         if config['personas'][persona_name]['generation_method'] == 'none':
-            continue # Skip control group for now if we add persona bots
+            print(f"--- Skipping Persona: {persona_name} (Control Group) ---")
+            continue
 
         print(f"--- Running Persona: {persona_name} ---")
         for i in range(num_games_to_run):
             print(f"Starting game {i + 1} of {num_games_to_run} for persona {persona_name}...")
             db_session = Session()
             try:
-                # For each game, create a new GameManager instance
                 game_manager = GameManager(
                     config=config,
                     db_session=db_session,
                     llm_handler=llm_handler,
                     persona_name=persona_name,
                 )
-                # Play the game to completion
                 game_manager.play_game()
             except Exception as e:
                 print(f"An error occurred during game {i + 1} for {persona_name}: {e}")
@@ -82,7 +82,6 @@ def main():
                 db_session.close()
     
     print("\n--- Experiment Finished ---")
-
 
 if __name__ == "__main__":
     main()

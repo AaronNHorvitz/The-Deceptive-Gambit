@@ -13,8 +13,8 @@ def mock_config():
         'inference_params': {'max_tokens': 150}
     }
 
-# Patch the pipeline function from the transformers library
-@patch('transformers.pipeline')
+# This is the corrected line
+@patch('gambit.llm_handler.pipeline')
 def test_llm_handler_parsing(mock_pipeline, mock_config):
     """Tests that the handler correctly initializes and parses the pipeline's output."""
     # This is the fake output we want our mocked pipeline to produce
@@ -28,7 +28,7 @@ def test_llm_handler_parsing(mock_pipeline, mock_config):
     # Configure the mock to return our fake output
     mock_pipeline.return_value = MagicMock(return_value=mock_output)
 
-    # Initialize the handler (this will use the mocked pipeline)
+    # Initialize the handler (this will now use the mocked pipeline)
     handler = LLMHandler(config=mock_config)
     assert handler is not None
 
