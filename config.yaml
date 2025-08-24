@@ -1,18 +1,19 @@
 # Configuration for The Deceptive Gambit Experiment v4.0
 
 # -- Model Paths --
-# Local paths to the downloaded model weights.
+# Use the Hugging Face model identifiers.
+# Transformers will use the local downloaded copies automatically.
 model_paths:
   # The target model we are testing.
-  target_llm: "src/models/gpt-oss-20b"
+  target_llm: "openai/gpt-oss-20b"
   # The base model for our persona bots.
-  persona_llm: "src/models/gemma-2b-it"
+  persona_llm: "google/gemma-2b-it"
 
 # -- Inference Settings --
 inference_params:
   temperature: 0.7
   top_p: 0.95
-  max_tokens: 150 # Max tokens for a single chess move response
+  max_tokens: 150
 
 # -- Experiment Settings --
 experiment:
