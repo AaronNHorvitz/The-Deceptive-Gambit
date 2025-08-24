@@ -2,6 +2,7 @@ import argparse
 import yaml
 from pathlib import Path
 import chess
+import traceback
 
 from gambit import database
 from gambit.llm_handler import LLMHandler
@@ -42,6 +43,7 @@ def main():
             game_manager.play_game()
         except Exception as e:
             print(f"\n--- An error occurred during game {i + 1}: {e} ---")
+            traceback.print_exc() 
         finally:
             db_session.close()
     
