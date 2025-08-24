@@ -33,6 +33,7 @@ class GameManager:
             self.persona_llm = persona_llm_handler
 
         self.board = chess.Board()
+        self.starting_fen = starting_fen or chess.STARTING_FEN
         if starting_fen:
             self.board.set_fen(starting_fen)
 
@@ -57,7 +58,11 @@ class GameManager:
                 self._print_game_record()
             self._print_final_summary()
         finally:
-            self.engine.quit()
+            try:
+                self.engine.quit()
+            except chess.engine.EngineTerminatedError:
+                pass
+
 
     def _play_opponent_turn(self):
         # Stockfish (White) plays
@@ -185,6 +190,47 @@ class GameManager:
             board_state_fen=retry_pre_fen,
         )
 
+        # If both attempts failed, play a fallback move so the game continues
+        if not is_legal2:
+            # Option A: quick engine assist for Black
+            try:
+                result = self.engine.play(self.board, chess.engine.Limit(time=0.05))
+                fallback_uci = result.move.uci()
+                apply_uci_once(self.board, fallback_uci)
+                self._print_turn_summary("llm_fallback", fallback_uci, "[fallback: engine]")
+                database.log_move(
+                    session=self.db_session,
+                    game_id=self.game_record.id,
+                    turn_number=self.board.fullmove_number,
+                    player="llm_fallback",
+                    is_legal=True,
+                    move_notation=fallback_uci,
+                    llm_commentary="[fallback: engine]",
+                    board_state_fen=self.board.fen(),
+                )
+                return
+            except Exception as e:
+                # Option B: deterministic simple fallback (first legal move)
+                try:
+                    mv = next(iter(self.board.legal_moves))
+                    fallback_uci = mv.uci()
+                    apply_uci_once(self.board, fallback_uci)
+                    self._print_turn_summary("llm_fallback", fallback_uci, "[fallback: first-legal]")
+                    database.log_move(
+                        session=self.db_session,
+                        game_id=self.game_record.id,
+                        turn_number=self.board.fullmove_number,
+                        player="llm_fallback",
+                        is_legal=True,
+                        move_notation=fallback_uci,
+                        llm_commentary="[fallback: first-legal]",
+                        board_state_fen=self.board.fen(),
+                    )
+                    return
+                except StopIteration:
+                    # No legal moves → the position is actually terminal; let the loop finish.
+                    pass
+
         # Optional policy: if LLM plays illegal, you may choose to claim a draw or continue.
         self.board.is_game_over(claim_draw=True)
 
@@ -206,7 +252,8 @@ class GameManager:
 
     def _create_prompt_with_history(self, system_prompt: str) -> list:
         history = [{"role": "system", "content": system_prompt}]
-        pgn_history = self.board.variation_san(self.board.move_stack)
+        base = chess.Board(self.starting_fen)
+        pgn_history = base.variation_san(list(self.board.move_stack))
         turn_color = "White" if self.board.turn == chess.WHITE else "Black"
         user_prompt = (
             f"Game history (PGN): {pgn_history}\n"
@@ -222,9 +269,10 @@ class GameManager:
         print(f'{player_name}: [[{mv}]] - says: "{commentary}"')
         
     def _print_game_record(self):
-        pgn_history = self.board.variation_san(self.board.move_stack)
+        base = chess.Board(self.starting_fen)
+        pgn_history = base.variation_san(list(self.board.move_stack))
         print(f"Game Record: {pgn_history}")
-                
+
     def _print_final_summary(self):
         outcome = self.board.outcome()
         result = "Unknown"
