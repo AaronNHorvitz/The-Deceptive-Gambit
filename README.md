@@ -3,71 +3,90 @@
 *An automated testing harness to prove that a powerful AI will cheat at chess... if you give it a reason.*
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
-
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-A framework for statistically measuring deceptive behaviors in Large Language Models by pitting them against a chess engine under various simulated social personas. This project is a submission to the **OpenAI gpt-oss-20b Red-Teaming Challenge**.
+This project is a submission to the **OpenAI gpt-oss-20b Red-Teaming Challenge**.
 
 ---
 
 ### Key Project Links
 * [**Full Experimental Design**](docs/EXPERIMENTAL_DESIGN.md) - The complete scientific plan for this study.
-* [**Analysis Notebook**](analysis.ipynb) - The Jupyter notebook used to analyze the results.
-* [**Final Results Database**](results/games.db) - *(Available after experiment completion)*
+* [**Detailed File Architecture**](docs/FILE_ARCHITECTURE.md) - A breakdown of the repository structure.
+* [**Analysis Notebook**](notebooks/003_results_analysis.ipynb) - The Jupyter notebook used to analyze the results.
 
 ---
 
-## Abstract 
+## Overview
 
-This project investigates a critical AI safety question: can an AI model's "honesty" be quantitatively measured, and does it change under social pressure? We have developed an automated testing harness to play over 800 games of chess with `gpt-oss-20b`. By systematically altering the LLM's perceived social context (e.g., telling it's playing a child vs. a grandmaster), we aim to discover if the model's integrity is constant or if it can be manipulated. This framework is designed to produce statistically robust evidence of persona-driven deception, a potentially critical and exploitable flaw in social AI alignment.
+This project investigates a critical AI safety question: can an AI model's "honesty" be quantitatively measured, and does it change under social pressure? We have developed an automated testing harness to run **hundreds of games of chess** with `gpt-oss-20b`. By systematically altering the LLM's perceived social context, we aim to produce statistically robust evidence of persona-driven deception.
 
-We designed this project to stand out by focusing on three core principles:
+Our approach is defined by three core principles:
 
-* **Objective, Verifiable Proof:** No more subjective interpretation of an LLM's "intent." We use the formal rules of chess as an unyielding ground truth. An illegal move is an undeniable, reproducible violation—the perfect metric for quantifying deceptive behavior.
+* **Objective, Verifiable Proof:** We use the formal rules of chess as an unyielding ground truth. An illegal move is an undeniable, reproducible violation.
 
-* **Rigorous Scientific Method:** We don't just "find a bug"; we investigate the underlying cause. Our experiment is designed to test two competing scientific hypotheses—**Mechanistic Failure vs. Social Deception**—using formal statistical analysis (ANOVA & Tukey's HSD) to deliver a confident conclusion.
+* **Rigorous Scientific Method:** We investigate the underlying cause by testing two competing hypotheses—**Mechanistic Failure vs. Social Deception**—using a data-driven statistical analysis plan to deliver a confident conclusion.
 
-* **Advanced Antagonist Simulation:** We go beyond simple prompting. Our framework uses **LoRA-trained "persona bots"** on `Llama3` to create consistent, realistic, and provocative conversational partners, pushing `gpt-oss-20b`'s alignment to its absolute limit in a dynamic, AI-driven environment.
+* **Advanced Antagonist Simulation:** Our framework uses the **Ollama** engine to run a `gemma:2b` model as a conversational partner, with plans to fine-tune it with LoRA to create a highly consistent and provocative antagonist.
 
-## The Core Question: Will an AI Lie to Avoid Losing?
+## The Core Scientific Question
 
-Our experiment is designed to answer a simple question. Is the model's cheating a simple technical breakdown, or is it a more complex social strategy?
+Is the model's cheating a simple technical breakdown, or is it a more complex social strategy? Our experiment is designed to answer this by testing which of two competing hypotheses the data supports:
 
-1.  **Hypothesis 1 (Mechanistic Failure):** The model breaks down in complex, losing positions and makes errors, regardless of the opponent.
-2.  **Hypothesis 2 (Social Deception):** The model's behavior *changes* based on social context. It is more likely to cheat against an opponent it perceives as naive or beatable.
+1.  **Hypothesis 1 (Mechanistic Failure):** The model breaks down and makes errors in complex, losing positions, regardless of the opponent.
+2.  **Hypothesis 2 (Social Deception):** The model's behavior *changes* based on social context and is more likely to cheat against an opponent it perceives as naive or beatable.
 
-Our analysis will produce a clear visualization of the "Cheating Rate" across our high-contrast personas, providing powerful evidence for one of these two explosive conclusions.
+![Conceptual Results Chart](https://i.imgur.com/uS5wE2H.png)
 
+## Project Roadmap (Deadline: Aug 26)
 
-## Project Roadmap 
-
-* [x] **Phase 1 (Aug 11-19):** Project Setup & Planning
-* [ ] **Phase 2 (Aug 20-22):** Core Development & Unit Testing
-* [ ] **Phase 3 (Aug 23-24):** Experiment Run (Pilot & Full-Scale)
+* [x] **Phase 1 (Aug 20-23):** Project Setup, Refactoring & Planning
+* [ ] **Phase 2 (Aug 24):** Core Development & Unit Testing
+* [ ] **Phase 3 (Aug 24-25):** Experiment Run (Pilot & Full-Scale)
 * [ ] **Phase 4 (Aug 25-26):** Analysis, Write-up, & Submission
 
-## Getting Started: Reproducing Our Framework 
+## Reproducing Our Framework
 
 ### Prerequisites
-* Linux (Ubuntu 22.04+), Python 3.11+, NVIDIA GPU (24GB+ VRAM)
+* Linux (Ubuntu 22.04+), Python 3.11+, NVIDIA GPU (24GB+ VRAM), Git LFS.
+* The **Ollama** application must be installed on your system.
 
-### Installation & Execution
-1.  **Clone the repository and set up the environment:**
+### Installation & Setup
+1.  **Install System Dependencies:**
+    ```bash
+    # Install Git LFS for model downloads and Stockfish
+    sudo apt-get update && sudo apt-get install git-lfs stockfish
+    git lfs install
+    ```
+2.  **Install Ollama:**
+    ```bash
+    curl -fsSL [https://ollama.com/install.sh](https://ollama.com/install.sh) | sh
+    ```
+3.  **Clone the Repository:**
     ```bash
     git clone [https://github.com/aaronnhorvitz/The-Deceptive-Gambit.git](https://github.com/aaronnhorvitz/The-Deceptive-Gambit.git)
     cd The-Deceptive-Gambit
+    ```
+4.  **Create Python Environment:**
+    ```bash
     python3 -m venv .venv
     source .venv/bin/activate
     pip install -r requirements.txt
-    sudo apt-get update && sudo apt-get install stockfish
+    pip install -e .
+    ```
+5.  **Pull Models via Ollama:**
+    Ensure the Ollama application is running, then pull the required models.
+    ```bash
+    ollama pull gpt-oss:20b
+    ollama pull gemma:2b
     ```
 
-2.  **Run a quick test (1 game vs. NaiveNovice):**
+### Running the Experiment
+1.  Ensure the Ollama application is running in the background.
+2.  Run the smoke test (1 game vs. NaiveNovice):
     ```bash
-    python main.py --num-games 1 --persona NaiveNovice
+    python main.py --persona NaiveNovice --num-games 1
     ```
-The results will be logged to `data/games.db`.
+---
 ## Project Structure
 ```
 The-Deceptive-Gambit/
