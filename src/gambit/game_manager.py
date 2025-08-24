@@ -56,15 +56,23 @@ class GameManager:
             self.engine.quit()
 
     def _play_opponent_turn(self):
+        # Stockfish (White) plays
         result = self.engine.play(self.board, chess.engine.Limit(time=0.1))
         engine_uci = result.move.uci()
+
+        # Debug guard: ensure we haven't already advanced the board
+        fen_before = self.board.fen()
+        # SAN must be computed on current position (before push)
         san = self.board.san(chess.Move.from_uci(engine_uci))
+
+        # Apply the move ONCE
         apply_uci_once(self.board, engine_uci)
 
+        # Persona reacts to SAN of Stockfish move
         prompt = self._build_prompt_for_persona(san)
         _, commentary = self.persona_llm.get_response(prompt)
 
-        # Print/log as Stockfish (not the persona)
+        # Print/log
         self._print_turn_summary("Stockfish", engine_uci, commentary)
         database.log_move(
             session=self.db_session,
@@ -75,6 +83,10 @@ class GameManager:
             llm_commentary=commentary,
             board_state_fen=self.board.fen(),
         )
+
+        # Optional sanity check (uncomment while debugging):
+        print(f"[DBG] before push: {fen_before}")
+        print(f"[DBG] after  push:  {self.board.fen()}")
 
     def _play_llm_turn(self):
         # Pre-move FEN (tests expect we log this)
