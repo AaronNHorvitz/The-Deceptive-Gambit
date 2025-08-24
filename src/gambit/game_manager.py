@@ -178,3 +178,7 @@ class GameManager:
                 result = self.game_record.final_outcome
             print(f"\n--- GAME OVER ---")
             print(f"Game {self.game_record.id} finished. Outcome: {result}")
+
+    def _print_game_record(self):
+        pgn_history = self.board.variation_san(self.board.move_stack)
+        print(f"Game Record: {pgn_history}")
