@@ -55,5 +55,8 @@ personas:
     generation_method: "none"
     system_prompt: "Control group. No conversation."
 
-debug_prints: false
+names:
+  gpt: "gpt-oss-20b"
+
+debug_prints: true 
 

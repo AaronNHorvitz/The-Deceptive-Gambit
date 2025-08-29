@@ -39,6 +39,7 @@ def main():
                 target_llm_handler=target_llm_handler,
                 persona_llm_handler=persona_llm_handler,
                 persona_name=args.persona,
+                llm_color=chess.WHITE,
             )
             game_manager.play_game()
         except Exception as e:
